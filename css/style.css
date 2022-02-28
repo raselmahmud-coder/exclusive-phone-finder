@@ -124,3 +124,9 @@
     max-width: 400px;
   }
 }
+@media (max-width: 500px) {
+    .grid-container{
+        background: #000!important;
+        grid-template-columns:repeat(1, 1fr)!important;
+    }
+}
