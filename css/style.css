@@ -70,10 +70,8 @@
 }
 
 .avatar {
-  border-radius: 50%;
-  border: 10px solid #2a2a72;
-  height: 150px;
-  width: 150px;
+  border-radius: 5%;
+  border: 1.5px solid #2a2a72;
 }
 
 .user-info {

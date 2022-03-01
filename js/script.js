@@ -3,6 +3,8 @@ const formId = document.getElementById('form');
 const container = document.getElementById('container');
 const spinner = document.getElementById('spinner');
 const error = document.getElementById('error');
+const createDiv = document.createElement('div');
+const showMoreBtn = document.getElementsByClassName('show-more');
 
 formId.addEventListener('submit', (e) => {
     // spinner.classList.add('spinner');
@@ -45,26 +47,26 @@ const getSearchResult = (phones) => {
         spinner.classList.remove('spinner');
         error.innerText = 'did not founds any phone';
     }
-    
-    // const arrLength = phones.length;
-    const firstPageResult = phones.slice(0, 6);
+    console.log(phones.length);
+    // first 20 result show
+    const firstPageResult = phones.slice(0, 20);
     firstPageResult.forEach(phone => {
-            const createDiv = document.createElement('div');
-            createDiv.classList.add('grid-item', 'animate-bottom');
+        const createDivPhone = document.createElement('div');
+            createDivPhone.classList.add('grid-item', 'animate-bottom');
             spinner.classList.remove('spinner');
-            createDiv.innerHTML = `
+            createDivPhone.innerHTML = `
         <img src="${phone.image}" alt="phone" class="avatar">
         <p>Phone Name: ${phone.phone_name}</p>
         <p>Brand: ${phone.brand}</p>
         <button class="details-btn" onclick="getDetailsAPI('${phone.slug}')">Details</button>
         `;
-            container.appendChild(createDiv);
+            container.appendChild(createDivPhone);
 
     });
-    if (phones.length >= 7) {
-        const showMoreBtn = document.getElementsByClassName('show-more');
+    // rest of them result show
+    if (phones.length >= 21) {
         showMoreBtn[0].style.display = 'block';
-        const showMoreResult = phones.slice(6, phones.length);
+        const showMoreResult = phones.slice(20, phones.length);
          showMoreBtn[0].addEventListener('click', () => {
             showMoreResult.forEach(phone => {
                 const createDiv = document.createElement('div');
@@ -77,10 +79,8 @@ const getSearchResult = (phones) => {
             <button class="details-btn" onclick="getDetailsAPI('${phone.slug}')">Details</button>
             `;
                 container.appendChild(createDiv);
-    
             });
-            showMoreBtn[0].style.display = 'none';
-             console.log(showMoreResult);
+                showMoreBtn[0].style.display = 'none';
          });
     }
 };
@@ -88,6 +88,7 @@ const getSearchResult = (phones) => {
 const getDetailsAPI = (slug) => {
     // spinner add
     spinner.classList.add('spinner');
+    showMoreBtn[0].style.display = 'none';
     try {
         fetch(`https://openapi.programming-hero.com/api/phone/${slug}`)
         .then(response => response.json())
@@ -98,17 +99,60 @@ const getDetailsAPI = (slug) => {
     // previous UI empty
     container.textContent = '';
 } 
-// get details phone
-const createDiv = document.createElement('div');
+// get details phone in single page
 const getDetailsPhone = (phone) => {
     createDiv.classList.add('grid-item', 'animate-bottom');
     spinner.classList.remove('spinner');
     createDiv.innerHTML = `
-<img src="${phone.image}" alt="phone" class="avatar">
-<p>Phone Name: ${phone.name}</p>
-<p>Brand: ${phone.brand}</p>
-<p">Main Features: ${phone.mainFeatures.chipSet}</p>
-`;
+        <img src="${phone.image}" alt="phone" class="avatar">
+        <p>Phone Name: ${phone.name}</p>
+        <p>Brand: ${phone.brand}</p>
+        <div class="table-feature-info">
+        <h3 class="table-title">Main Features:</h3>
+        <table>
+        <tr>
+            <td>Storage: ${phone.mainFeatures ? phone.mainFeatures.storage : 'No'}</td>
+            <td>Chip Set: ${phone.mainFeatures ? phone.mainFeatures.chipSet : 'No'}</td>
+        </tr>
+        <tr>
+            <td>Display Size: ${phone.mainFeatures ? phone.mainFeatures.displaySize : 'No'}</td>
+            <td>Memory: ${phone.mainFeatures ? phone.mainFeatures.memory : "No"}</td>
+        </tr>
+        </table>
+        <h3 class="table-title">Sensonrs:</h3>
+        <table>
+        <tr>
+            <td>${phone.mainFeatures.sensors[0] ? phone.mainFeatures.sensors[0] : 'No'}</td>
+            <td>${phone.mainFeatures.sensors[1] ? phone.mainFeatures.sensors[1] : 'No'}</td>
+        </tr>
+        <tr>
+            <td>${phone.mainFeatures.sensors[2] ? phone.mainFeatures.sensors[2] : 'No'}</td>
+            <td>${phone.mainFeatures.sensors[3] ? phone.mainFeatures.sensors[3] : 'No'}</td>
+        </tr>
+        <tr>
+            <td>${phone.mainFeatures.sensors[4]  ? phone.mainFeatures.sensors[4] : 'No'}</td>
+            <td>${phone.mainFeatures.sensors[5] ? phone.mainFeatures.sensors[5] : 'No'}</td>
+        </tr>
+        </table>
+        <h3 class="table-title">Others:</h3>
+        <table>
+        <tr>
+            <td>Bluetooth: ${phone.others ? phone.others.Bluetooth : 'No'}</td>
+            <td>GPS: ${phone.others ? phone.others.GPS : 'No'}</td>
+        </tr>
+        <tr>
+            <td>NFC: ${phone.others ? phone.others.NFC : 'No'}</td>
+            <td>Radio: ${phone.others ? phone.others.Radio : 'No'}</td>
+        </tr>
+        <tr>
+            <td>USB: ${phone.others ? phone.others.USB : 'No'}</td>
+            <td>WLAN: ${phone.others ? phone.others.WLAN : 'No'}</td>
+        </tr>
+        </table>
+        <h3>${phone.releaseDate ? phone.releaseDate : 'Release Date: Not Get'}</h3>
+
+        </div>
+`;  
     container.appendChild(createDiv);
     container.classList.add('single-page');
     // container.textContent = '';
