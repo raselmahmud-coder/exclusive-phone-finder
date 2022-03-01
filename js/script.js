@@ -27,13 +27,35 @@ const getSearchResult = (phones) => {
     <img src="${phone.image}" alt="phone" class="avatar">
     <p>Phone Name: ${phone.phone_name}</p>
     <p>Brand: ${phone.brand}</p>
-    <button onclick="getDetails('${phone.slug}')">Details</button>
+    <button class="details-btn" onclick="getDetailsAPI('${phone.slug}')">Details</button>
     `;
         container.appendChild(createDiv);
-        console.log(phone);
+        // console.log(phone);
     });
 };
 // get details signle phone
-const getDetails = (slug) => {
-    console.log(slug);
+const getDetailsAPI = (slug) => {
+    // previous ui empty
+    try {
+        fetch(`https://openapi.programming-hero.com/api/phone/${slug}`)
+        .then(response => response.json())
+        .then(data => getDetailsPhone(data.data));
+    } catch (error) {
+        console.log(error);
+    }
+    container.textContent = '';
+} 
+// get details phone
+const getDetailsPhone = (phone) => {
+    const createDiv = document.createElement('div');
+    createDiv.classList.add('grid-item');
+    createDiv.innerHTML = `
+<img src="${phone.image}" alt="phone" class="avatar">
+<p>Phone Name: ${phone.mainFeatures.name}</p>
+<p>Brand: ${phone.brand}</p>
+<p">Main Features: ${phone.mainFeatures.chipSet}</p>
+`;
+    container.appendChild(createDiv);
+    container.classList.add('single-page');
+    console.log(phone);
 } 
