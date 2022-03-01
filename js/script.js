@@ -5,10 +5,10 @@ const spinner = document.getElementById('spinner');
 const error = document.getElementById('error');
 const createDiv = document.createElement('div');
 const showMoreBtn = document.getElementsByClassName('show-more');
-
-formId.addEventListener('submit', (e) => {
-    // spinner.classList.add('spinner');
-    e.preventDefault();
+// html form event handler
+formId.addEventListener('submit', (event) => {
+    spinner.classList.add('spinner');
+    event.preventDefault();
     let letters = /[a-z]/i;
     const userQuery = input.value;
     if (userQuery === '' || !userQuery.match(letters)) {
@@ -16,7 +16,6 @@ formId.addEventListener('submit', (e) => {
         container.textContent = '';
         input.value = '';
         error.innerText = 'Please give a valid phone name';
-        // alert('need a valid name');
     }
     else {
         spinner.classList.add('spinner');
@@ -42,26 +41,23 @@ const loadAPI = (query) => {
 };
 // display search result
 const getSearchResult = (phones) => {
-    // the array is defined and has no elements
+    // if product not found
     if (phones.length === 0) {
         spinner.classList.remove('spinner');
         error.innerText = 'did not founds any phone';
     }
-    console.log(phones.length);
     // first 20 result show
     const firstPageResult = phones.slice(0, 20);
     firstPageResult.forEach(phone => {
         const createDivPhone = document.createElement('div');
-            createDivPhone.classList.add('grid-item', 'animate-bottom');
-            spinner.classList.remove('spinner');
-            createDivPhone.innerHTML = `
-        <img src="${phone.image}" alt="phone" class="avatar">
-        <p>Phone Name: ${phone.phone_name}</p>
-        <p>Brand: ${phone.brand}</p>
-        <button class="details-btn" onclick="getDetailsAPI('${phone.slug}')">Details</button>
-        `;
-            container.appendChild(createDivPhone);
-
+        createDivPhone.classList.add('grid-item', 'animate-bottom');
+        spinner.classList.remove('spinner');
+        createDivPhone.innerHTML = `
+            <img src="${phone.image}" alt="phone" class="avatar">
+            <p class="product-title">Phone Name: ${phone.phone_name}</p>
+            <p class="product-title">Brand: ${phone.brand}</p>
+            <button class="details-btn" onclick="getDetailsAPI('${phone.slug}')">Details</button>`;
+        container.appendChild(createDivPhone);
     });
     // rest of them result show
     if (phones.length >= 21) {
@@ -69,18 +65,17 @@ const getSearchResult = (phones) => {
         const showMoreResult = phones.slice(20, phones.length);
          showMoreBtn[0].addEventListener('click', () => {
             showMoreResult.forEach(phone => {
-                const createDiv = document.createElement('div');
-                createDiv.classList.add('grid-item', 'animate-bottom');
-                spinner.classList.remove('spinner');
-                createDiv.innerHTML = `
-            <img src="${phone.image}" alt="phone" class="avatar">
-            <p>Phone Name: ${phone.phone_name}</p>
-            <p>Brand: ${phone.brand}</p>
-            <button class="details-btn" onclick="getDetailsAPI('${phone.slug}')">Details</button>
-            `;
-                container.appendChild(createDiv);
+            const createDiv = document.createElement('div');
+            createDiv.classList.add('grid-item', 'animate-bottom');
+            spinner.classList.remove('spinner');
+            createDiv.innerHTML = `
+                <img src="${phone.image}" alt="phone" class="avatar">
+                <p class="product-title">Phone Name: ${phone.phone_name}</p>
+                <p class="product-title">Brand: ${phone.brand}</p>
+                <button class="details-btn" onclick="getDetailsAPI('${phone.slug}')">Details</button>`;
+            container.appendChild(createDiv);
             });
-                showMoreBtn[0].style.display = 'none';
+            showMoreBtn[0].style.display = 'none';
          });
     }
 };
@@ -105,8 +100,8 @@ const getDetailsPhone = (phone) => {
     spinner.classList.remove('spinner');
     createDiv.innerHTML = `
         <img src="${phone.image}" alt="phone" class="avatar">
-        <p>Phone Name: ${phone.name}</p>
-        <p>Brand: ${phone.brand}</p>
+        <p class="product-title">Phone Name: ${phone.name}</p>
+        <p class="product-title">Brand: ${phone.brand}</p>
         <div class="table-feature-info">
         <h3 class="table-title">Main Features:</h3>
         <table>
@@ -130,7 +125,7 @@ const getDetailsPhone = (phone) => {
             <td>${phone.mainFeatures.sensors[3] ? phone.mainFeatures.sensors[3] : 'No'}</td>
         </tr>
         <tr>
-            <td>${phone.mainFeatures.sensors[4]  ? phone.mainFeatures.sensors[4] : 'No'}</td>
+            <td>${phone.mainFeatures.sensors[4] ? phone.mainFeatures.sensors[4] : 'No'}</td>
             <td>${phone.mainFeatures.sensors[5] ? phone.mainFeatures.sensors[5] : 'No'}</td>
         </tr>
         </table>
@@ -150,11 +145,8 @@ const getDetailsPhone = (phone) => {
         </tr>
         </table>
         <h3>${phone.releaseDate ? phone.releaseDate : 'Release Date: Not Get'}</h3>
-
-        </div>
-`;  
+        </div>`;  
     container.appendChild(createDiv);
     container.classList.add('single-page');
-    // container.textContent = '';
     console.log(phone);
 } 
