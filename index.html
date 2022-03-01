@@ -37,6 +37,70 @@
     width: 90%;
     margin: 0 auto;
 }
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+/* spinner css */
+.spinner{
+  margin: 0 auto;
+  width: 80px;
+  height: 80px;
+}
+.spinner:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid #fff;
+  border-color: #58b0e3 #ebcccc #3befa4 #302f2fb8;
+  animation: spinner 1.2s infinite;
+}
+@keyframes spinner{
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+/* error message */
+h1#error {
+    text-align: center;
+    color: indianred;
+}
+/* show more btn */
+button.show-more {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    padding: 8px 12px;
+    cursor: pointer;
+    background: yellowgreen;
+    border-radius: 23px;
+}
     </style>
 </head>
 <body>
@@ -46,11 +110,15 @@
         <input type="text" id="search" placeholder="Search a Phone">
         <button class="search-btn">Search</button>
     </form>
+    <div id="spinner">
+        <h1 id="error"></h1>
+    </div>
 </header>
-      
-      <main class="grid-container" id="container">
 
-      </main>
+<main class="grid-container" id="container"></main>
+<div>
+    <button class="show-more">Show More</button>
+</div>
 <!--       <p>Sensor:</p>
       <p>Others:</p> -->
       <!-- custom js -->
