@@ -40,7 +40,6 @@ const loadAPI = (query) => {
 };
 // display search result
 const getSearchResult = (phones) => {
-    console.log(phones);
     // the array is defined and has no elements
     if (phones.length === 0) {
         spinner.classList.remove('spinner');
@@ -63,10 +62,24 @@ const getSearchResult = (phones) => {
 
     });
     if (phones.length >= 7) {
+        const showMoreBtn = document.getElementsByClassName('show-more');
+        showMoreBtn[0].style.display = 'block';
         const showMoreResult = phones.slice(6, phones.length);
-         const showMoreBtn = document.getElementsByClassName('show-more');
          showMoreBtn[0].addEventListener('click', () => {
-
+            showMoreResult.forEach(phone => {
+                const createDiv = document.createElement('div');
+                createDiv.classList.add('grid-item', 'animate-bottom');
+                spinner.classList.remove('spinner');
+                createDiv.innerHTML = `
+            <img src="${phone.image}" alt="phone" class="avatar">
+            <p>Phone Name: ${phone.phone_name}</p>
+            <p>Brand: ${phone.brand}</p>
+            <button class="details-btn" onclick="getDetailsAPI('${phone.slug}')">Details</button>
+            `;
+                container.appendChild(createDiv);
+    
+            });
+            showMoreBtn[0].style.display = 'none';
              console.log(showMoreResult);
          });
     }
