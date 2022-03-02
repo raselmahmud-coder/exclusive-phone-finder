@@ -102,8 +102,9 @@ const getDetailsPhone = (phone) => {
         <img src="${phone.image}" alt="phone" class="avatar">
         <p class="product-title">Phone Name: ${phone.name}</p>
         <p class="product-title">Brand: ${phone.brand}</p>
-        <div class="table-feature-info">
-        <h3 class="table-title">Main Features:</h3>
+        <h3>${phone.releaseDate ? phone.releaseDate : 'Release Date: Not Get'}</h3>
+        <div>
+        <h3>Main Features:</h3>
         <table>
         <tr>
             <td>Storage: ${phone.mainFeatures ? phone.mainFeatures.storage : 'No'}</td>
@@ -114,7 +115,7 @@ const getDetailsPhone = (phone) => {
             <td>Memory: ${phone.mainFeatures ? phone.mainFeatures.memory : "No"}</td>
         </tr>
         </table>
-        <h3 class="table-title">Sensonrs:</h3>
+        <h3>Sensonrs:</h3>
         <table>
         <tr>
             <td>${phone.mainFeatures.sensors[0] ? phone.mainFeatures.sensors[0] : 'No'}</td>
@@ -129,7 +130,7 @@ const getDetailsPhone = (phone) => {
             <td>${phone.mainFeatures.sensors[5] ? phone.mainFeatures.sensors[5] : 'No'}</td>
         </tr>
         </table>
-        <h3 class="table-title">Others:</h3>
+        <h3>Others:</h3>
         <table>
         <tr>
             <td>Bluetooth: ${phone.others ? phone.others.Bluetooth : 'No'}</td>
@@ -144,7 +145,6 @@ const getDetailsPhone = (phone) => {
             <td>WLAN: ${phone.others ? phone.others.WLAN : 'No'}</td>
         </tr>
         </table>
-        <h3>${phone.releaseDate ? phone.releaseDate : 'Release Date: Not Get'}</h3>
         </div>`;  
     container.appendChild(createDiv);
     container.classList.add('single-page');
